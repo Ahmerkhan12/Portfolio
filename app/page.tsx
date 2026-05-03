@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "@/components/Loader";
 import Hero from "@/components/Hero";
+import Work from "@/components/Work";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <Hero />
+            <Work />
             
             {/* Social Sidebar (Fixed) */}
             <div className="fixed left-8 bottom-12 z-20 flex flex-col gap-6">
