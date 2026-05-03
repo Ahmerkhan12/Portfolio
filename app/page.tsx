@@ -3,8 +3,12 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "@/components/Loader";
+import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Work from "@/components/Work";
+import Experience from "@/components/Experience";
+import TechStack from "@/components/TechStack";
+import Connect from "@/components/Connect";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -21,11 +25,15 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
+            <Navbar />
             <Hero />
             <Work />
+            <Experience />
+            <TechStack />
+            <Connect />
             
             {/* Social Sidebar (Fixed) */}
-            <div className="fixed left-8 bottom-12 z-20 flex flex-col gap-6">
+            <div className="fixed left-8 bottom-12 z-20 hidden md:flex flex-col gap-6">
               <SocialLink href="https://github.com/Ahmerkhan12" label="GH" />
               <SocialLink href="https://linkedin.com/in/ahmer-khan-8b895a230" label="LI" />
               <SocialLink href="mailto:khanahmer526@gmail.com" label="EM" />

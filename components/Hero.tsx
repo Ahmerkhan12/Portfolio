@@ -1,28 +1,29 @@
 "use client";
 
-import Spline from "@splinetool/react-spline";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Suspense, useEffect, useState } from "react";
 
+const SplineScene = dynamic(() => import("./SplineScene"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-[#0A0A0A]" />,
+});
+
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#0A0A0A]">
-      {/* 3D Scene Container */}
+      {/* Background Glow */}
       <div className="absolute inset-0 z-0">
-        {mounted && (
-          <Suspense fallback={<div className="w-full h-full bg-[#0A0A0A]" />}>
-            <Spline 
-              scene="https://prod.spline.design/ATD17X6O5E-S6j8T/scene.splinecode" 
-              className="w-full h-full"
-            />
-          </Suspense>
-        )}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl max-h-[800px] opacity-10">
+          <div className="w-full h-full bg-gradient-to-tr from-purple-neon via-blue-neon to-purple-neon blur-[120px] rounded-full" />
+        </div>
+      </div>
+
+      {/* 3D Scene Container */}
+      <div className="absolute inset-0 z-10">
+        <Suspense fallback={<div className="w-full h-full bg-[#0A0A0A]" />}>
+          <SplineScene />
+        </Suspense>
       </div>
 
       {/* Hero Content Overlay */}
@@ -54,12 +55,18 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-12 flex gap-6 pointer-events-auto"
           >
-            <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-all active:scale-95">
+            <a 
+              href="#work"
+              className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-all active:scale-95"
+            >
               VIEW WORK
-            </button>
-            <button className="px-8 py-4 glass text-white font-bold rounded-full hover:bg-white/10 transition-all active:scale-95">
+            </a>
+            <a 
+              href="#connect"
+              className="px-8 py-4 glass text-white font-bold rounded-full hover:bg-white/10 transition-all active:scale-95"
+            >
               CONNECT
-            </button>
+            </a>
           </motion.div>
         </div>
       </div>
