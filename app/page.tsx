@@ -3,32 +3,48 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "@/components/Loader";
+import Hero from "@/components/Hero";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <main className="relative min-h-screen">
+    <main className="relative min-h-screen bg-[#0A0A0A]">
       <AnimatePresence mode="wait">
         {loading ? (
           <Loader key="loader" onComplete={() => setLoading(false)} />
         ) : (
           <motion.div
             key="content"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center justify-center min-h-screen p-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            <h1 className="text-6xl font-black text-gradient mb-4">
-              Ahmer Khan
-            </h1>
-            <p className="text-zinc-400 text-xl tracking-widest uppercase">
-              Full Stack Engineer • Scalable Systems
-            </p>
+            <Hero />
+            
+            {/* Social Sidebar (Fixed) */}
+            <div className="fixed left-8 bottom-12 z-20 flex flex-col gap-6">
+              <SocialLink href="https://github.com/Ahmerkhan12" label="GH" />
+              <SocialLink href="https://linkedin.com/in/ahmer-khan-8b895a230" label="LI" />
+              <SocialLink href="mailto:khanahmer526@gmail.com" label="EM" />
+              <div className="w-[1px] h-20 bg-zinc-800 mx-auto" />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
     </main>
+  );
+}
+
+function SocialLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a 
+      href={href} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="text-zinc-500 hover:text-purple-neon transition-colors font-mono text-xs tracking-tighter"
+    >
+      {label}
+    </a>
   );
 }
