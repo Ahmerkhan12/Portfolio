@@ -18,7 +18,7 @@ const experiences = [
   {
     company: "Education",
     role: "Software Engineering Student",
-    period: "2022 - 2026",
+    period: "2021 - 2025",
     description: "Pursuing a degree in Software Engineering with a focus on AI, Web Technologies, and Cloud Computing.",
     highlights: [
       "Leader in local tech communities (GDG Cloud Islamabad)",
