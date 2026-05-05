@@ -9,7 +9,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 4000; // 4 seconds
+    const duration = 2000; // 2 seconds
     const interval = 40;
     const increment = 100 / (duration / interval);
 
@@ -17,7 +17,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(onComplete, 500); // Final delay before transition
+          setTimeout(onComplete, 300); // Final delay before transition
           return 100;
         }
         return Math.min(prev + increment, 100);

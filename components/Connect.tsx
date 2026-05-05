@@ -19,19 +19,19 @@ export default function Connect() {
             Ready to build <br />
             <span className="text-gradient">the next big thing?</span>
           </h2>
-          
+
           <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto font-light">
             I'm currently available for freelance projects and full-time opportunities. Let's create something extraordinary together.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a 
+            <a
               href="mailto:khanahmer526@gmail.com"
               className="px-12 py-5 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-all active:scale-95 text-lg"
             >
               SAY HELLO
             </a>
-            <a 
+            <a
               href="https://linkedin.com/in/ahmer-khan-8b895a230"
               target="_blank"
               rel="noopener noreferrer"

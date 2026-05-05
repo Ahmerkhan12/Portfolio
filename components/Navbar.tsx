@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { name: "Work", href: "#work" },
-  { name: "Experience", href: "#experience" },
-  { name: "Stack", href: "#tech" },
-  { name: "Contact", href: "#connect" },
+  { name: "About", href: "/about" },
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Journey", href: "/#experience" },
+  { name: "Stack", href: "/#tech" },
 ];
 
 export default function Navbar() {
@@ -30,9 +30,12 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-8 flex justify-between items-center">
-        <a href="#" className="text-2xl font-black tracking-tighter">
-          AK<span className="text-purple-neon">.</span>
-        </a>
+        <div className="flex items-center gap-12">
+          <a href="/" className="text-2xl font-black tracking-tighter">
+            AK<span className="text-purple-neon">.</span>
+          </a>
+
+        </div>
 
         <div className="glass px-6 py-2 rounded-full border border-white/10 hidden md:flex gap-8">
           {navLinks.map((link) => (
