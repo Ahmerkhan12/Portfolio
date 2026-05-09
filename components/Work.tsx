@@ -52,6 +52,34 @@ const projects = [
     tools: "Python, Selenium, Nginx, Anti-Detection, Automation",
     image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1000&auto=format&fit=crop",
   },
+  {
+    id: "07",
+    title: "AI Document OCR",
+    category: "OCR / NLP Pipeline",
+    tools: "Python, Tesseract, OpenCV, FastAPI, AWS Textract, PostgreSQL",
+    image: "https://images.unsplash.com/photo-1568667256549-094345857637?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: "08",
+    title: "Real-time Chat App",
+    category: "WebSocket / Node.js",
+    tools: "Socket.io, Node.js, Redis, React, MongoDB, JWT Auth",
+    image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: "09",
+    title: "SaaS Analytics Dashboard",
+    category: "Data Viz / Full Stack",
+    tools: "Next.js, D3.js, Prisma, PostgreSQL, Stripe, Tailwind",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: "10",
+    title: "AI Lead Scoring Engine",
+    category: "ML / CRM Integration",
+    tools: "Python, scikit-learn, FastAPI, Node.js, OpenAI, MongoDB",
+    image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop",
+  },
 ];
 
 export default function Work() {
@@ -107,11 +135,10 @@ export default function Work() {
 
         <div ref={containerRef} className="flex h-full w-fit">
           {projects.map((project, index) => (
-            <div 
-              key={project.id} 
-              className={`w-[70vw] md:w-[30vw] lg:w-[20vw] h-full border-zinc-800 px-6 md:px-8 py-6 flex flex-col shrink-0 ${
-                index !== projects.length - 1 ? "border-r" : ""
-              }`}
+            <div
+              key={project.id}
+              className={`w-[70vw] md:w-[30vw] lg:w-[20vw] h-full border-zinc-800 px-6 md:px-8 py-6 flex flex-col shrink-0 ${index !== projects.length - 1 ? "border-r" : ""
+                }`}
             >
               <div className="flex justify-between items-start mb-8">
                 <span className="text-4xl font-black text-white/5">{project.id}</span>
@@ -129,8 +156,8 @@ export default function Work() {
               </div>
 
               <div className="h-[200px] md:h-[240px] rounded-xl overflow-hidden glass border border-white/5 relative group">
-                <img 
-                  src={project.image} 
+                <img
+                  src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                 />

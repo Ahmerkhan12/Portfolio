@@ -12,20 +12,34 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      const diff = currentScrollY - lastScrollY;
+
+      // Only react to scrolls larger than 10px to avoid jitter
+      if (Math.abs(diff) > 10) {
+        setHidden(diff > 0 && currentScrollY > 80); // hide when scrolling down
+        lastScrollY = currentScrollY;
+      }
+
+      setScrolled(currentScrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <motion.nav
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      animate={{ y: hidden ? -100 : 0 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`fixed top-0 left-0 right-0 z-40 transition-[padding] duration-300 ${
         scrolled ? "py-4" : "py-8"
       }`}
     >
