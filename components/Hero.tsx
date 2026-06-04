@@ -28,7 +28,7 @@ function SocialIcon({ icon, href }: { icon: string; href: string }) {
   );
 }
 
-export default function Hero() {
+export default function Hero({ onSplineLoad }: { onSplineLoad?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const robotRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLDivElement>(null);
@@ -88,7 +88,7 @@ export default function Hero() {
         >
           <div className="w-full h-full max-w-7xl">
             <Suspense fallback={<div className="w-full h-full bg-[#0A0A0A]" />}>
-              <SplineScene />
+              <SplineScene onLoad={onSplineLoad} />
             </Suspense>
           </div>
         </div>

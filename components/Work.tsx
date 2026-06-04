@@ -124,7 +124,7 @@ export default function Work() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="work" className="h-screen bg-[#0A0A0A] overflow-hidden">
+    <section ref={sectionRef} id="work" className="h-[70vh] bg-[#0A0A0A] overflow-hidden">
       <div className="h-full flex flex-col pt-12">
         <div className="px-12 md:px-24 mb-12">
           <h2 className="text-2xl md:text-4xl font-black text-white">
@@ -137,7 +137,7 @@ export default function Work() {
           {projects.map((project, index) => (
             <div
               key={project.id}
-              className={`w-[70vw] md:w-[30vw] lg:w-[20vw] h-full border-zinc-800 px-6 md:px-8 py-6 flex flex-col shrink-0 ${index !== projects.length - 1 ? "border-r" : ""
+              className={`w-[70vw] md:w-[30vw] lg:w-[20vw] h-[620px] border-zinc-800 px-6 md:px-8 py-6 flex flex-col shrink-0 ${index !== projects.length - 1 ? "border-r" : ""
                 }`}
             >
               <div className="flex justify-between items-start mb-8">
@@ -155,7 +155,7 @@ export default function Work() {
                 </p>
               </div>
 
-              <div className="h-[200px] md:h-[240px] rounded-xl overflow-hidden glass border border-white/5 relative group">
+              <div className="h-[160px] md:h-[180px] rounded-xl overflow-hidden glass border border-white/5 relative group">
                 <img
                   src={project.image}
                   alt={project.title}

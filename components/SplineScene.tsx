@@ -3,7 +3,7 @@
 import Spline from "@splinetool/react-spline";
 import { useState } from "react";
 
-export default function SplineScene() {
+export default function SplineScene({ onLoad }: { onLoad?: () => void }) {
   const [error, setError] = useState(false);
 
   if (error) {
@@ -21,9 +21,9 @@ export default function SplineScene() {
     <div className="w-full h-full relative">
       <Spline
         scene="/scene.splinecode"
-        onLoad={() => console.log("NEXBOT loaded successfully from local source")}
+        onLoad={() => onLoad?.()}
         onError={(e) => {
-          console.error("Spline Local Error:", e);
+          console.error("Spline error:", e);
           setError(true);
         }}
         className="w-full h-full"

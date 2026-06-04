@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/Navbar";
@@ -12,41 +12,31 @@ import Connect from "@/components/Connect";
 
 export default function ClientPage() {
   const [loading, setLoading] = useState(true);
+  const [splineReady, setSplineReady] = useState(false);
+
+  const handleSplineLoad = useCallback(() => setSplineReady(true), []);
 
   return (
     <main className="relative min-h-screen bg-[#0A0A0A]">
       <AnimatePresence mode="wait">
-        {loading ? (
-          <Loader key="loader" onComplete={() => setLoading(false)} />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          >
-            <Navbar />
-            <Hero />
-            <Work />
-            <Experience />
-            <TechStack />
-            <Connect />
-          </motion.div>
+        {loading && (
+          <Loader key="loader" isReady={splineReady} onComplete={() => setLoading(false)} />
         )}
       </AnimatePresence>
-    </main>
-  );
-}
 
-function SocialLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a 
-      href={href} 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="text-zinc-500 hover:text-purple-neon transition-colors font-mono text-xs tracking-tighter"
-    >
-      {label}
-    </a>
+      {/* Render Hero (and Spline) behind the loader so it loads in parallel */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: loading ? 0 : 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <Navbar />
+        <Hero onSplineLoad={handleSplineLoad} />
+        <Work />
+        <Experience />
+        <TechStack />
+        <Connect />
+      </motion.div>
+    </main>
   );
 }
