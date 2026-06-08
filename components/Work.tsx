@@ -80,6 +80,20 @@ const projects = [
     tools: "Python, scikit-learn, FastAPI, Node.js, OpenAI, MongoDB",
     image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop",
   },
+  {
+    id: "11",
+    title: "SaaS Analytics Dashboard",
+    category: "Data Viz / Full Stack",
+    tools: "Next.js, D3.js, Prisma, PostgreSQL, Stripe, Tailwind",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: "12",
+    title: "AI Lead Scoring Engine",
+    category: "ML / CRM Integration",
+    tools: "Python, scikit-learn, FastAPI, Node.js, OpenAI, MongoDB",
+    image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop",
+  },
 ];
 
 export default function Work() {
