@@ -138,9 +138,9 @@ export default function Work() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="work" className="h-[70vh] bg-[#0A0A0A] overflow-hidden">
+    <section ref={sectionRef} id="work" className="h-screen bg-[#0A0A0A] overflow-hidden">
       <div className="h-full flex flex-col pt-12">
-        <div className="px-12 md:px-24 mb-12">
+        <div className="px-12 md:px-24 mb-6">
           <h2 className="text-2xl md:text-4xl font-black text-white">
             My <span className="text-purple-neon italic">Work</span>
           </h2>
