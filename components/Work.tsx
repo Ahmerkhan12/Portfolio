@@ -80,20 +80,6 @@ const projects = [
     tools: "Python, scikit-learn, FastAPI, Node.js, OpenAI, MongoDB",
     image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop",
   },
-  {
-    id: "11",
-    title: "SaaS Analytics Dashboard",
-    category: "Data Viz / Full Stack",
-    tools: "Next.js, D3.js, Prisma, PostgreSQL, Stripe, Tailwind",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: "12",
-    title: "AI Lead Scoring Engine",
-    category: "ML / CRM Integration",
-    tools: "Python, scikit-learn, FastAPI, Node.js, OpenAI, MongoDB",
-    image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop",
-  },
 ];
 
 export default function Work() {
@@ -103,42 +89,44 @@ export default function Work() {
   useEffect(() => {
     if (!containerRef.current || !sectionRef.current) return;
 
-    // Use a small timeout to ensure layout is stable
-    const timer = setTimeout(() => {
-      const scrollWidth = containerRef.current?.scrollWidth || 0;
-      const windowWidth = window.innerWidth;
-      const totalWidth = scrollWidth - windowWidth;
+    const ctx = gsap.context(() => {
+      const calculateScroll = () => {
+        if (!containerRef.current || !sectionRef.current) return;
+        const scrollWidth = containerRef.current.scrollWidth;
+        const windowWidth = window.innerWidth;
+        const totalWidth = scrollWidth - windowWidth;
 
-      // If everything fits on screen, don't do horizontal scroll
-      if (totalWidth <= 0) return;
+        if (totalWidth <= 0) return;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${totalWidth}`,
-          scrub: 1,
-          pin: true,
-          invalidateOnRefresh: true,
-        },
-      });
+        gsap.to(containerRef.current, {
+          x: -totalWidth,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${totalWidth}`,
+            scrub: 1,
+            pin: true,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+          },
+        });
+      };
 
-      tl.to(containerRef.current, {
-        x: -totalWidth,
-        ease: "none",
-      });
-    }, 100);
+      calculateScroll();
+      // Ensure dimensions are refreshed after full render
+      const refreshTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 300);
 
-    return () => {
-      clearTimeout(timer);
-      ScrollTrigger.getAll().forEach(t => {
-        if (t.trigger === sectionRef.current) t.kill();
-      });
-    };
+      return () => clearTimeout(refreshTimer);
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="work" className="h-screen bg-[#0A0A0A] overflow-hidden">
+    <section ref={sectionRef} id="work" className="h-screen bg-[#0A0A0A] overflow-hidden contain-render">
       <div className="h-full flex flex-col pt-12">
         <div className="px-12 md:px-24 mb-6">
           <h2 className="text-2xl md:text-4xl font-black text-white">
@@ -169,13 +157,15 @@ export default function Work() {
                 </p>
               </div>
 
-              <div className="h-[160px] md:h-[180px] rounded-xl overflow-hidden glass border border-white/5 relative group">
+              <div className="h-[160px] md:h-[180px] rounded-xl overflow-hidden glass border border-white/5 relative group gpu-layer">
                 <img
                   src={project.image}
                   alt={project.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60 pointer-events-none" />
               </div>
             </div>
           ))}

@@ -20,15 +20,15 @@ export default function Connect() {
   };
 
   return (
-    <section id="connect" className="py-32 px-8 bg-[#0A0A0A] relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-neon/10 blur-[120px] rounded-full pointer-events-none" />
+    <section id="connect" className="py-32 px-8 bg-[#0A0A0A] relative overflow-hidden contain-render">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-neon/10 blur-[90px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="glass p-12 md:p-20 rounded-[4rem] border border-white/10"
+          className="glass p-12 md:p-20 rounded-[3rem] border border-white/10 gpu-layer"
         >
           <div className="grid md:grid-cols-2 gap-16 items-start">
             {/* Left */}

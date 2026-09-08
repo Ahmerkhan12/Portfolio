@@ -92,22 +92,34 @@ export default function PortfolioPage() {
   );
 }
 
-function ProjectCard({ project, index }: { project: any; index: number }) {
+interface ProjectItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  tech: string[];
+  link: string;
+  image: string;
+}
+
+function ProjectCard({ project, index }: { project: ProjectItem; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="group relative glass rounded-3xl overflow-hidden border border-white/5 hover:border-purple-neon/20 transition-all"
+      className="group relative glass rounded-3xl overflow-hidden border border-white/5 hover:border-purple-neon/20 transition-all gpu-layer"
     >
       <div className="h-80 overflow-hidden relative">
         <img 
           src={project.image} 
           alt={project.title}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80 pointer-events-none" />
       </div>
 
       <div className="p-10 -mt-20 relative z-10">
