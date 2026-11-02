@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "./hero.css";
+import "./work.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,6 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} h-full antialiased dark scroll-smooth`}
       suppressHydrationWarning
     >

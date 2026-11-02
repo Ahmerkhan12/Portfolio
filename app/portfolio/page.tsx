@@ -4,62 +4,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Connect from "@/components/Connect";
 
-const allProjects = [
-  {
-    id: "01",
-    title: "AI Cloth Search Platform",
-    subtitle: "Computer Vision & DINOv2",
-    description: "A specialized search platform for Pakistani women's clothing using Meta's DINOv2 and CLIP models for high-precision visual similarity.",
-    tech: ["Python", "PyTorch", "DINOv2", "CLIP", "React"],
-    link: "https://github.com/Ahmerkhan12",
-    image: "https://images.unsplash.com/photo-1539109132314-3477524c859c?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: "02",
-    title: "Quiz & Assignment AI",
-    subtitle: "RAG & LangChain",
-    description: "Automated generator and checker using Retrieval Augmented Generation (RAG) to process academic materials and verify student submissions.",
-    tech: ["LangChain", "OpenAI", "RAG", "Node.js", "Vector DB"],
-    link: "https://github.com/Ahmerkhan12",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: "03",
-    title: "AI Voice Agent",
-    subtitle: "Twilio & Deepgram",
-    description: "Real-time AI calling agent with high-fidelity voice transcription and intelligent response generation using Twilio Streams and Deepgram.",
-    tech: ["Twilio", "Deepgram", "Node.js", "WebSockets", "OpenAI"],
-    link: "https://github.com/Ahmerkhan12",
-    image: "https://images.unsplash.com/photo-1534536281715-e28d76689b4d?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: "04",
-    title: "Secure ERP & Payments",
-    subtitle: "Full Stack Fintech",
-    description: "Enterprise ERP & CRM systems with integrated payment gateways (Stripe, Authorize.Net, JazzCash) and AWS/Cloudflare infrastructure.",
-    tech: ["Stripe", "PHP", "MERN", "AWS S3", "JazzCash"],
-    link: "https://github.com/Ahmerkhan12",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: "05",
-    title: "Native Mobile Ecosystem",
-    subtitle: "React Native & Firebase",
-    description: "High-performance cross-platform mobile application delivering seamless user experiences with real-time data sync and push notifications.",
-    tech: ["React Native", "Expo", "Firebase", "Redux", "Native Modules"],
-    link: "https://github.com/Ahmerkhan12",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: "06",
-    title: "Google Maps Scraper",
-    subtitle: "Python Automation",
-    description: "Robust lead generation tool built in Python to extract and verify business data from Google Maps with anti-detection measures.",
-    tech: ["Python", "Selenium", "Nginx", "Automation", "VPS"],
-    link: "https://github.com/Ahmerkhan12",
-    image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1000&auto=format&fit=crop",
-  },
-];
+import { projects, type Project } from "@/lib/projects";
 
 export default function PortfolioPage() {
   return (
@@ -80,7 +25,7 @@ export default function PortfolioPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {allProjects.map((project, index) => (
+            {projects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
@@ -92,19 +37,10 @@ export default function PortfolioPage() {
   );
 }
 
-interface ProjectItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  tech: string[];
-  link: string;
-  image: string;
-}
-
-function ProjectCard({ project, index }: { project: ProjectItem; index: number }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <motion.div
+      id={`project-${project.id}`}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -124,7 +60,7 @@ function ProjectCard({ project, index }: { project: ProjectItem; index: number }
 
       <div className="p-10 -mt-20 relative z-10">
         <h4 className="text-purple-neon font-mono text-xs tracking-widest uppercase mb-2">
-          {project.subtitle}
+          {project.category}
         </h4>
         <h3 className="text-3xl font-bold mb-4">{project.title}</h3>
         <p className="text-zinc-400 leading-relaxed mb-8 max-w-md">

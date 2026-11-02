@@ -1,102 +1,65 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
-const marqueeText = "FULL STACK ENGINEER • MOBILE APPS • SCALABLE SYSTEMS • AI INTEGRATIONS • ";
+let introShown = false;
+const marquee = "FULL STACK ENGINEER · MOBILE APPS · SCALABLE SYSTEMS · AI INTEGRATIONS · ";
 
-export default function Loader({ onComplete, isReady }: { onComplete: () => void; isReady: boolean }) {
+export default function Loader({ onComplete, onReveal }: { onComplete: () => void; onReveal: () => void }) {
+  const [phase, setPhase] = useState<"visible" | "leaving" | "hidden">(() => introShown ? "hidden" : "visible");
   const [progress, setProgress] = useState(0);
-  const completedRef = useRef(false);
-
-  const finishLoading = () => {
-    if (completedRef.current) return;
-    completedRef.current = true;
-    setProgress(100);
-    setTimeout(onComplete, 400);
-  };
 
   useEffect(() => {
-    // Smooth progress animation up to 90%
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 90) {
-          clearInterval(interval);
-          return 90;
-        }
-        return Math.min(prev + 5, 90);
-      });
-    }, 35);
+    if (introShown) { onReveal(); onComplete(); return; }
+    let cancelled = false;
+    let frame = 0;
+    let ready = false;
+    let finishStarted: number | undefined;
+    let holdTimer: ReturnType<typeof setTimeout> | undefined;
+    let exitTimer: ReturnType<typeof setTimeout> | undefined;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const started = performance.now();
+    const introDuration = reduced ? 200 : 950;
+    const completeDuration = reduced ? 100 : 220;
+    const markReady = () => { if (!cancelled) ready = true; };
+    void document.fonts.ready.then(markReady, markReady);
 
-    // Hard fallback safety timer: never block user longer than 2.5 seconds
-    const fallbackTimer = setTimeout(() => {
-      finishLoading();
-    }, 2500);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(fallbackTimer);
+    const tick = (now: number) => {
+      if (cancelled) return;
+      const elapsed = now - started;
+      let next = Math.min(90, (elapsed / introDuration) * 90);
+      if (elapsed >= introDuration && (ready || elapsed >= 2200)) {
+        finishStarted ??= now;
+        next = Math.min(100, 90 + ((now - finishStarted) / completeDuration) * 10);
+      }
+      const rounded = Math.floor(next);
+      setProgress((previous) => previous === rounded ? previous : rounded);
+      if (next >= 100) {
+        introShown = true;
+        holdTimer = setTimeout(() => {
+          if (cancelled) return;
+          onReveal();
+          setPhase("leaving");
+          exitTimer = setTimeout(onComplete, reduced ? 100 : 300);
+        }, reduced ? 0 : 120);
+      } else frame = requestAnimationFrame(tick);
     };
-  }, []);
+    frame = requestAnimationFrame(tick);
+    return () => { cancelled = true; cancelAnimationFrame(frame); clearTimeout(holdTimer); clearTimeout(exitTimer); };
+  }, [onComplete, onReveal]);
 
-  useEffect(() => {
-    if (!isReady) return;
-    finishLoading();
-  }, [isReady]);
-
+  if (phase === "hidden") return null;
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.05 }}
-      transition={{ duration: 0.6, ease: "easeInOut" }}
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#0A0A0A]"
-    >
-      {/* Subtle Marquee Background in Dark Tones */}
-      <div className="absolute inset-0 flex flex-col justify-around opacity-5 select-none pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ x: i % 2 === 0 ? 0 : -1000 }}
-            animate={{ x: i % 2 === 0 ? -1000 : 0 }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="whitespace-nowrap text-8xl font-black text-white"
-          >
-            {marqueeText.repeat(10)}
-          </motion.div>
-        ))}
+    <div className={`brand-intro original-intro ${phase === "leaving" ? "is-leaving" : ""}`} role="status" aria-label="Preparing Ahmer’s portfolio">
+      <div className="loader-marquee" aria-hidden="true">
+        {Array.from({ length: 5 }, (_, index) => <div className={`loader-marquee-row ${index % 2 ? "reverse" : ""}`} key={index}><div className="loader-marquee-track"><span>{marquee}</span><span>{marquee}</span></div></div>)}
       </div>
-
-      {/* Ambient Cyberpunk Glow */}
-      <div className="absolute w-[400px] h-[400px] bg-purple-neon/15 rounded-full blur-[100px] pointer-events-none" />
-
-      {/* Central Pill Loader */}
-      <motion.div
-        initial={{ scale: 0.85, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="relative z-10 flex items-center justify-between px-8 py-4 bg-zinc-950/80 backdrop-blur-md rounded-full shadow-[0_0_40px_rgba(168,85,247,0.3)] border border-purple-500/30 w-72"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-purple-neon animate-pulse" />
-          <span className="text-zinc-300 font-mono tracking-widest text-xs uppercase">
-            {progress < 100 ? "INITIALIZING" : "SYSTEM READY"}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-1">
-          <span className="text-white font-mono font-bold text-base min-w-[3ch] text-right">
-            {Math.round(progress)}
-          </span>
-          <span className="text-purple-400 font-mono text-sm">%</span>
-        </div>
-
-        <motion.div
-          className="absolute inset-0 rounded-full border border-purple-500/60 pointer-events-none"
-          style={{
-            clipPath: `inset(0 ${100 - progress}% 0 0)`,
-          }}
-        />
-      </motion.div>
-    </motion.div>
+      <div className="loader-halo" aria-hidden="true" />
+      <div className="loader-pill">
+        <span className="loader-state"><span className="loader-dot" />{progress === 100 ? "READY" : "LOADING"}</span>
+        <span className="loader-value">{progress}<span>%</span></span>
+        <span className="loader-pill-progress" aria-hidden="true" style={{ clipPath: `inset(0 ${100 - progress}% 0 0 round 999px)` }} />
+      </div>
+    </div>
   );
 }
